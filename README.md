@@ -1,0 +1,2 @@
+# Gigi's Library: Custom Select
+A javascript library to help build nice custom select options. It's here to replace the HTML's <select> tag with something you can style, customize to your taste. A new select lib is here!!!
