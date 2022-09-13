@@ -6,11 +6,15 @@
 // Add your custom options
 
 let showSelectBlock = (ele) => {
-    ele.style.display = "block";
+    setTimeout(function(){
+        ele.style.display = "block";
+    });
 }
 
 let hideSelectBlock = (ele) => {
-    ele.style.display = "none";
+    setTimeout(function(){
+        ele.style.display = "none";
+    });
 }
 
 let fetchedOptions = (identifier, value) => {
@@ -62,7 +66,7 @@ let fetchedOptions = (identifier, value) => {
                 ele.addEventListener("click", ((j) => {
                     return function() {
                         if(item !== null){
-                            gigiInput.value = item;
+                            gigiInput.value = ele.getAttribute("gigi-option");
                             gigiInput.setAttribute("gigi-validate", "");
                             ele.setAttribute("gigi-option-active", "");
                         }
@@ -90,6 +94,14 @@ let customSelect = () => {
                         fetchedOptions(gigiInputName);
                     }
                 }
+                let customForms = document.querySelectorAll("[gigi-custom-form]");
+                customForms.forEach(function(ele, index){
+                    let customForm = ele;
+                    let customSelects = document.querySelectorAll("[gigi-custom-form]:nth-child("+ Number(index + 1) +") [gigi-select]");
+                    customSelects.forEach(function(ele){
+                        customForm.setAttribute("gigi-selected", "");
+                    });
+                });
             }
         })(i));
 
@@ -109,6 +121,14 @@ let customSelect = () => {
                 setTimeout(() => {
                     hideSelectBlock(gigiSelect);
                 }, 200);
+                let customForms = document.querySelectorAll("[gigi-custom-form]");
+                customForms.forEach(function(ele, index){
+                    let customForm = ele;
+                    let customSelects = document.querySelectorAll("[gigi-custom-form]:nth-child("+ Number(index + 1) +") [gigi-select]");
+                    customSelects.forEach(function(ele){
+                        customForm.removeAttribute("gigi-selected", "");
+                    });
+                });
             }
         })(i));
     }
@@ -143,6 +163,16 @@ let validateInput = (input) => {
     }
 }
 
+let getValidatedInput = (input) => {
+    if(validateInput(input)){
+        let gigiValue = document.querySelector("[gigi-select=\"" + input + "\"] [gigi-option][gigi-option-active]").getAttribute("gigi-value");
+        return gigiValue;
+    }
+    else {
+        return null;
+    }
+}
+
 let gigiCustomSelect = {
     run: () => {
         customSelect();
@@ -150,5 +180,10 @@ let gigiCustomSelect = {
     },
     validate: (input) => {
         return validateInput(input);
+    },
+    value: {
+        get: (input) => {
+            return getValidatedInput(input);
+        }
     }
 }

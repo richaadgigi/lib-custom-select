@@ -1,13 +1,23 @@
 :root {
     --faded: rgba(0, 0, 0, .04);
     --faded-dark: rgba(0, 0, 0, .6);
+    --white: #FFFFFF;
+    --extended: 150px;
+}
+
+[gigi-input-box] {
+    position: relative;
 }
 
 [gigi-select] {
+    position: absolute;
+    width: 100%;
+    background-color: var(--white);
+    z-index: 2;
     display: none;
     overflow-y: auto;
     margin-top: 7px;
-    max-height: 200px;
+    max-height: var(--extended);
     border: 1px solid var(--faded);
 }
 
